@@ -1,5 +1,5 @@
 # SimplePasswordManager
-Super quick and dirty simple password manager. Meant for local usage (don't use it online unless you want everyone to get your passwords)
+Quick and dirty password manager. Meant for local usage (don't use it online unless you want to share your credentials with everyone on earth)
 
 # Features
 
@@ -10,4 +10,3 @@ Super quick and dirty simple password manager. Meant for local usage (don't use 
 # How to use
 
 Populate data.json with valid JSON as per the example. Type in the searchbar and watch the magic unfold before your eyes as the JSON data is filtered and displayed on screen.
-
