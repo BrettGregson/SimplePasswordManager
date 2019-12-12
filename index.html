@@ -1,0 +1,136 @@
+<input type="text" id="search" /><br/>
+<div id="results"></div>
+
+<script>
+
+  var data;
+  function readTextFile(file){
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function (){
+      if(rawFile.readyState === 4){
+        if(rawFile.status === 200 || rawFile.status == 0) {
+          data = JSON.parse(rawFile.responseText);
+          console.log(data);
+        }
+      }
+    }
+    rawFile.send(null);
+  }
+
+  readTextFile("./data.json");
+
+  var results = [];
+  var searchValue = "";
+  var input = document.getElementById('search');
+  var output = document.getElementById('results');
+  input.focus();
+
+  function checkTag(value) {
+    var match = false;
+    value.tags.forEach(tag => {
+      if (tag.includes(searchValue)){
+        match = true;
+      }
+    });
+    return match;
+  }
+
+  input.addEventListener('input', function() {
+      output.innerHTML = "";
+      results = [];
+      searchValue = this.value;
+      results = data.filter(checkTag);
+      console.log(results.length);
+      if (searchValue.length > 0){
+        var first = true;
+        results.forEach(result => {
+          if (first){
+            copyTextToClipboard(result.password)
+          }
+
+          output.innerHTML += `
+            <div class="result-item">
+              ${result.title}<br/>
+              ${result.username}<br/>
+              <span class="pword ${first ? 'first' : ''}">${result.password}</span><br/>
+            </div>
+          `;
+
+          first = false;
+        });
+      }
+  }, false);
+
+  function fallbackCopyTextToClipboard(text) {
+    var textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position="fixed";  //avoid scrolling to bottom
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      var successful = document.execCommand('copy');
+      var msg = successful ? 'successful' : 'unsuccessful';
+      console.log('Fallback: Copying text command was ' + msg);
+    } catch (err) {
+      console.error('Fallback: Oops, unable to copy', err);
+    }
+
+    document.body.removeChild(textArea);
+    }
+    function copyTextToClipboard(text) {
+    if (!navigator.clipboard) {
+      fallbackCopyTextToClipboard(text);
+      return;
+    }
+    navigator.clipboard.writeText(text).then(function() {
+      console.log('Async: Copying to clipboard was successful!');
+    }, function(err) {
+      console.error('Async: Could not copy text: ', err);
+    });
+  }
+</script>
+
+<style>
+    html,
+    body {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      color: white;
+      margin: 0px;
+      background-color: #18222D;
+      text-align: center;
+    }
+
+    .first {
+      color: #ff4400;
+    }
+
+    input {
+      display: block;
+      outline: none; 
+      background-color: transparent;
+      border: none;
+      padding: 12px 15px;
+      text-align: center;
+      color: white;
+      position: absolute;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      width: 100%;
+    }
+
+    #results {
+      margin: auto;
+      margin-top: 18px;
+      width: 100%;
+      max-width: 400px;
+      font-size: 12px;
+    }
+    .result-item {
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 15px 0;
+      color: white;
+      text-align: left;
+    }
+</style>
