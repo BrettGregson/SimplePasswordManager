@@ -11,7 +11,6 @@
       if(rawFile.readyState === 4){
         if(rawFile.status === 200 || rawFile.status == 0) {
           data = JSON.parse(rawFile.responseText);
-          console.log(data);
         }
       }
     }
@@ -79,8 +78,9 @@
     }
 
     document.body.removeChild(textArea);
-    }
-    function copyTextToClipboard(text) {
+  }
+
+  function copyTextToClipboard(text) {
     if (!navigator.clipboard) {
       fallbackCopyTextToClipboard(text);
       return;
@@ -94,43 +94,44 @@
 </script>
 
 <style>
-    html,
-    body {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      color: white;
-      margin: 0px;
-      background-color: #18222D;
-      text-align: center;
-    }
+  html,
+  body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
+    margin: 0px;
+    background-color: #18222D;
+    text-align: center;
+  }
 
-    .first {
-      color: #ff4400;
-    }
+  .first {
+    color: #ff4400;
+  }
 
-    input {
-      display: block;
-      outline: none; 
-      background-color: transparent;
-      border: none;
-      padding: 12px 15px;
-      text-align: center;
-      color: white;
-      position: absolute;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      width: 100%;
-    }
+  input {
+    display: block;
+    outline: none; 
+    background-color: transparent;
+    border: none;
+    padding: 12px 15px;
+    text-align: center;
+    color: white;
+    position: absolute;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    width: 100%;
+  }
 
-    #results {
-      margin: auto;
-      margin-top: 18px;
-      width: 100%;
-      max-width: 400px;
-      font-size: 12px;
-    }
-    .result-item {
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      padding: 15px 0;
-      color: white;
-      text-align: left;
-    }
+  #results {
+    margin: auto;
+    margin-top: 18px;
+    width: 100%;
+    max-width: 400px;
+    font-size: 12px;
+  }
+  
+  .result-item {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 15px 0;
+    color: white;
+    text-align: left;
+  }
 </style>
